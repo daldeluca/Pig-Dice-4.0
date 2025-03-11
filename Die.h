@@ -8,7 +8,8 @@ private:
     int num_sides;
 public:
     Die(int num_sides = 6);
-    int roll();
+    void roll();
+    int get_value();
 };
 
 #endif //DIE_H
