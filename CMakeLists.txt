@@ -4,7 +4,7 @@ project(Pig_Dice_4_0)
 set(CMAKE_CXX_STANDARD 20)
 
 add_executable(Pig_Dice_4_0 main.cpp
-        pgame.h
+        PGame.h
         Turn.h
         Turn.cpp
         Die.h
