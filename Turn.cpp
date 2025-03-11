@@ -2,40 +2,47 @@ using namespace std;
 #include "Turn.h"
 #include <iostream>
 //
-Turn::Turn(GameState &game, Die &die) : game(game), die(die) {}
+Turn::Turn() {
+    score_this_turn = 0;
+    turn_count = 0;
+    turn_over = false;
+    choice='\0';
+}
 
-void hold(GameState& game) {
-    game.score += game.turn_score;
-    cout << "Score for turn: " << game.turn_score << endl;
-    cout << "Total Score: " << game.score << endl;
-    if (game.score >= 20) {
-        game.game_over = true;
-    }
+int Turn:: get_score_this_turn() {
+    return score_this_turn;
+}
+
+int Turn:: get_turn_count() {
+    return turn_count;
+}
+
+void Turn:: reset_turn_score() {
+    score_this_turn = 0;
 }
 void Turn::take_turn(){
-    game.turn_score = 0;
-    char letter;
-    while(game.game_over == false) {
+    turn_count++;
+    cout << "\nTURN " << turn_count << "\n";
+    while(!turn_over) {
         cout<< "roll or hold? (r/h): ";
-        cin >> letter;
-        if(letter == 'r') {
-            int roll = die.roll();
-            cout<< "Die: " << roll << endl;
-            if (roll == 1){
+        cin >> choice;
+        if(choice == 'r') {
+            myDie.roll();
+            cout<< "Die: " << myDie.get_value() << endl;
+            if (myDie.get_value() == 1){
                 cout << "Turn Over. No Score.\n";
-                game.turn_score = 0;
-                return;
-
+                score_this_turn = 0;
+                turn_over = true;
             }else {
-                game.turn_score += roll;
+                score_this_turn += myDie.get_value();
             }
         }
-        else if(letter == 'h') {
-            hold(game);
-            return;
+        else if(choice == 'h') {
+            turn_over = true;
         }
         else {
             cout<<"Invalid choice! Try again."<<endl;
         }
     }
+    turn_over = false;
 }
